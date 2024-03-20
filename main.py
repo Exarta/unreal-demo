@@ -147,9 +147,23 @@ class Item(BaseModel):
 
 class StructData(BaseModel):
 
-    string_field: str
-    bool_field: bool
-    vector_field: List[float] 
+    itemid: str
+    isplayer: bool
+    playerposition: List[float]
+
+class PlayerData(BaseModel):
+    playerposition: List[float]
+    itemid : str
+
+class ObectData(BaseModel):
+    itemid : str
+    state : str
+{
+    "itemid ": "item123",
+    "isplayer": "false",
+    "playerposition": "[1.0 ,2.0 ,3.0]"
+} 
+
 
 boosted_words = ["swift", "vision", "aqua", "gaze", "glasses", "mind", "lens"]
 boosted_lm_score = 20.0
@@ -334,7 +348,9 @@ manager = ConnectionManager()
         
 @app.get("/")
 async def get():
-    return f"server is live !"
+    return {
+        "status" : " server is live !"
+    }
 
 # @app.post("/rag")
 # def get_rag_response(item :Item):
@@ -342,16 +358,16 @@ async def get():
 #     print(f"{response}")
 #     return response
 
-@app.post("/position{player_id}")
-async def get_completion_response(data : StructData):
+@app.post("/position")
+async def player_position(data : PlayerData):
     data = data.dict()
     print(f"{data}")
     logging.info(f"{data}")
-    return 
+    return {"status" :"position sent"}
 
 
 @app.post("/data")
-async def get_completion_response(data: Item):
+async def general_string(data: Item):
     # data = await data.json()
     # print(f"{data}")
     print(f"{data.text}")
@@ -360,12 +376,14 @@ async def get_completion_response(data: Item):
     return 
 
 
-@app.post("/current_object")
-async def get_completion_response(data : StructData):
-    # data = data.dict()
-    print(f"{data}")
+@app.post("/object_state")
+async def current_object(data : ObectData):
+    
+    data = data.dict()
+    logging.info(type(data))
+    # print(f"{data}")
     logging.info(f"{data}")
-    return  
+    return  { "status" : "object data recieved"}
 
 
 @app.websocket("/ws/bytes")
@@ -376,7 +394,7 @@ async def websocket_endpoint_bytes(websocket: WebSocket):
     await manager.send_personal_message(f"{first_action}", websocket)
     # elevenlabs_api(first_text)
     # a2f_api_call()
-    print(convertToAudioAndPlay(first_text , 'en-US'))
+    # print(convertToAudioAndPlay(first_text , 'en-US'))
     try:
         while True:
             data = await websocket.receive_bytes()
