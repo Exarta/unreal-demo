@@ -159,6 +159,8 @@ class PlayerData(BaseModel):
 class ObectData(BaseModel):
     itemid : str
     state : str
+    
+    
 {
     "itemid ": "item123",
     "isplayer": "false",
@@ -343,7 +345,7 @@ def sendtorasa(response):
     print("Sending Response to rasa")
     rasa_output = requests.post(url="http://172.16.15.217:5005/webhooks/rest/webhook", json=res).json()
     print(f'response from rasa  {type(rasa_output[0])} {rasa_output[0]}')
-    return rasa_output[0]['custom']
+    return rasa_output
     # return rasa_output[0]['text'], rasa_output[1]['custom']['action']
 
 manager = ConnectionManager()
@@ -459,14 +461,14 @@ async def websocket_endpoint_bytes(websocket: WebSocket):
                     # print(f"Response from rasa {str_response} {type(str_response)}")
                     
                     # str_response = str_response.replace("'")
-                    await manager.send_personal_message(rasa_response, websocket)
+                    await manager.send_personal_message(f"{rasa_response[1]['custom']}", websocket)
                     # await manager.send_personal_message('''{
                     # "action": "move-bot",
                     # "videoLink": null,
                     # "item_id": null,
                     # "position": "(X=1968.023466,Y=1101.438416,Z=634.024044)"}''', websocket)
                     # # ===============================
-                    elevenlabs_api("Hello from Turtle AR")
+                    elevenlabs_api(rasa_response[0]['text'])
                     # # time.sleep(3)
                     a2f_api_call()
                     # print(convertToAudioAndPlay(rasa_text , 'en-US'))
