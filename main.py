@@ -168,7 +168,7 @@ class ObectData(BaseModel):
 } 
 
 
-boosted_words = ["swift", "vision", "aqua", "gaze", "glasses", "mind", "lens"]
+boosted_words = ["swift", "vision", "aqua", "gaze", "glasses", "mind", "lens" , "pro" ,  "Zeniva" , "AR" , "Zoologist" ,"VR" ,  "terra" ]
 boosted_lm_score = 20.0
 riva_uri = '172.16.15.184:50051'  # ip address of NVIDIA RIVA ASR and TTS
 
