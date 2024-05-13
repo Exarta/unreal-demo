@@ -29,7 +29,7 @@ import json
 headers= {
   "Accept": "audio/wav",
   "Content-Type": "application/json",
-  "xi-api-key": "cdadb7bd2efb978c726a897f96cadd1a"
+  "xi-api-key": ""
 }
 
 # a2f componenets
@@ -170,7 +170,7 @@ class ObectData(BaseModel):
 
 boosted_words = ["swift", "vision", "aqua", "gaze", "glasses", "mind", "lens" , "pro" ,  "Zeniva" , "AR" , "Zoologist" ,"VR" ,  "terra" ]
 boosted_lm_score = 20.0
-riva_uri = '172.16.15.184:50051'  # ip address of NVIDIA RIVA ASR and TTS
+riva_uri = '172.16.15.209:50051'  # ip address of NVIDIA RIVA ASR and TTS
 
 offline_output_file = 'test_audio.wav'
 language_code = 'en-US'
